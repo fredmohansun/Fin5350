@@ -1,0 +1,5 @@
+beta = float(input("Please input the Beta:\n"))
+ERm = float(input("Please input the expected return on the market portfolio(ERm):\n"))
+Rf = float(input("Please input the risk-free rate:\n"))
+ERp = Rf + beta * (ERm - Rf)
+print("The expected return on the asset(ERp) is:\n",ERp)
