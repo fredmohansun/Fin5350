@@ -15,8 +15,8 @@ while Play:
     right = 100
     while not Correct:
         print("My guess is: ", Guess[marker])
-        choice = int(input("please enter 1 if my guess is higher, enter 2 if my guess is lower, enter 3 if I'm correct.\n"))
-        if choice == 1:
+        choice = input("please enter 1 if my guess is higher, enter 2 if my guess is lower, enter 3 if I'm correct.\n")
+        if choice == "1":
             if Guess[marker] == 0:
                 print("You cannot choose a negative number\n")
             else:
@@ -29,7 +29,7 @@ while Play:
                     if marker == len(Guess)-1:
                         Guess.append(NextGuess)
                     marker += 1
-        if choice == 2:
+        elif choice == "2":
             if Guess[marker] == 100:
                 print("You cannot choose a number greater than 100\n")
             else:
@@ -42,9 +42,11 @@ while Play:
                     if marker == len(Guess)-1:
                         Guess.append(NextGuess)
                     marker += 1
-        if choice == 3:
+        elif choice == "3":
             Correct = True
             print("Yeah!!")
+        else:
+            print("Incorrect input!")
     N = input("If you don't want to play again, enter 0. Or enter anything else to play again\n")
     if N == "0":
         Play = False
