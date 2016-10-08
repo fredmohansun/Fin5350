@@ -6,7 +6,13 @@ Created on Wed Sep 21 17:28:56 2016
 """
 
 def getnum(a):
-    return int(input(a)) # I don't know how to avoid user entering non-number characters but I want to
+    x = 'x'
+    while x == 'x':
+        try:
+            x = int(input(a)) # I don't know how to avoid user entering non-number characters but I want to
+        else:
+            x = 'x' 
+    return x
     
 L=[] # L is all feasible nugget numbers
 C=[] # C is a list contain nugget numbers in a roll
@@ -14,7 +20,10 @@ C=[] # C is a list contain nugget numbers in a roll
 choice = getnum("Please enter all availabe nugget size, enter 0 to finish\n")
 
 while choice != 0:
-    L.append(choice)
+    if(x>0):
+        L.append(choice)
+    else:
+        print("Please enter a positive number!\n"
     choice = getnum("Please enter all availabe nugget size, enter 0 to finish\n")
 
 # Get all feasible nugget sizes
