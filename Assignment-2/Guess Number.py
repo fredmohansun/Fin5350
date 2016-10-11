@@ -50,8 +50,8 @@ def main():
                 print("Yeah!! I guessed", n ,"times.\n")
             else:
                 print("Incorrect input!")
-        N = input("If you don't want to play again, enter 0. Or enter anything else to play again\n")
-        if N == "0":
+        N = input("If you want to play again, enter 0. Or enter anything else to quit\n")
+        if N != "0":
             Play = False              
                     
                     
