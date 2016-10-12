@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Oct 12 15:41:10 2016
+Created on Wed Oct 12 16:32:19 2016
 
 @author: sunmohan
 """
@@ -15,7 +15,11 @@ def OptionPrice(i,u,d,pu,pd,t,N,h,r,sigma):
     Doption = option(i.S*d,i.K,i.t)
     Pofu = OptionPrice(Uoption,u,d,pu,pd,t+1,N,h,r,sigma)
     Pofd = OptionPrice(Doption,u,d,pu,pd,t+1,N,h,r,sigma)
-    return np.exp(-r*h)*(pu * Pofu + pd * Pofd)
+    Phere = np.exp(-r*h)*(pu * Pofu + pd * Pofd)
+    if t == 0:
+        return Phere
+    i.get_payout()
+    return max(Phere,i.payout)
     
     
 
