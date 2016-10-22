@@ -20,4 +20,12 @@ _This Article is based heavily on probability theory. For now, I don't have too 
 
 1. According to Samuelson's idea, "prices depends on a summation of so many small and somewhat independent souces of variation that the result is like a random walk." And he shows htath next period's difference is uncorrelated with previous period's price difference. And if we assume no interest and risk neutral, the martingale property of zero expected capital gain holds.
 
-2. 
+2. The spot price cannot be known for certainty, but there can be at most one probability distribution.
+
+3. The future price of the underlying asset is the expected spot value at expire date based on all history spot value. This value is exactly the same as price at expiraion date.
+
+4. Based on 2., the future pricing is a fair-game where expected change of future pricing across time is zero.
+
+5. As time increase, the expected value of spot price move toward zero, and the variance increase. The future price's expected value is the expected vlue of the spot price at specific time and variance decrease as time approaches that date.
+
+6. If interest and risk aversion is added to this model. The future value doesn't show the martingale property but a drift pattern can be found.
