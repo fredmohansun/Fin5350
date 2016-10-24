@@ -51,7 +51,7 @@ class option(object):
 
 
 def main():
-    # S0,K,sigma,h=T/N,r
+    # S0,K,sigma,h=T/N,r,
     S0 = 100
     K=100
     N=2
