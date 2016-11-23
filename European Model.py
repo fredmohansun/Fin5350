@@ -48,9 +48,9 @@ class option(object):
 
 def main():
     # S0,K,sigma,h=T/N,r
-    S0 = 100
-    K=100
-    N=2
+    S0 = 41
+    K=40
+    N=3
     T=1
     h=T/N
     sigma=.30
@@ -59,7 +59,7 @@ def main():
     d = np.exp(r*h-sigma*np.sqrt(h))
     pu = (np.exp(r*h)-d)/(u-d)
     pd = 1-pu
-    Firstoption = option(S0,K,'p')
+    Firstoption = option(S0,K,'c')
     price = OptionPrice(Firstoption,u,d,pu,pd,0,N,h,r,sigma)
     print(price)
     
