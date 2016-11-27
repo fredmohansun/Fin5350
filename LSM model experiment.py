@@ -23,19 +23,20 @@ M = 10000
 h = T/N
 nuh = (r-div-0.5*sigma*sigma)*h
 sigsh = np.sqrt(h) * sigma
+np.random.seed(1234)
 
 ## X is for log(S)
 X0 = np.log(S0)
-X = np.zeros((M,N+1))
+XM = np.zeros((M,N+1))
+
+XM[:,0] = X0
 
 ## Calculate X for N steps for M simulation, and get S matrix by exp(X)
-for j in range(M):
-    X[j][0]=X0
-    for i in range(1,N+1):
-        eps = float(np.random.standard_normal(1))
-        X[j][i] = X[j][i-1] +nuh +sigsh *eps
+for i in range(1,N+1):
+    eps = np.random.standard_normal(M)
+    XM[:,i] = XM[:,i-1] + nuh + sigsh *eps
     
-S = np.exp(X)
+S = np.exp(XM)
 
 ## CF is the matrix of value of option at each step, column 0 is an index
 ## Last column, or value at expiry, is the payoff at expury
@@ -56,30 +57,25 @@ for i in range(N-1,0,-1):
     Numtemp = CF[:,0]
     
 ## CFtemp is the PV of continuation value at the time horizon t = i
-    ncol = (N+1)-(i+2)+1
+    ncol = N-i
     CFtemp1 = np.zeros((M,ncol))
     for k in range(ncol):
         CFtemp1[:,k] = CF[:,i+2+k]
         
     CFtemp = np.zeros(M)
         
-    for j in range(M):
-        for k in range(ncol):
-            CFtemp[j] += CFtemp1[j][k] * np.exp(-r*h*(k+1))
+    for k in range(ncol):
+        CFtemp += CFtemp1[:,k] * np.exp(-r*h*(k+1))
     
 
     size = len(Stemp[indStemp])
 
-## include only the simulation where the option is in the money at t = i    
-    regression = np.zeros((size,3))
-    regression[:,0] = Stemp[indStemp]
-    regression[:,1] = Stemp[indStemp] ** 2
-    regression[:,2] = CFtemp[indStemp]
-    
 ## Linear Regression
-    X = np.ones((len(Stemp[indStemp]),3))
-    X[:,[0,1]] = regression[:,[0,1]]
-    Y = regression[:,2]
+
+    X = np.ones((size,3))
+    X[:,0] = Stemp[indStemp]
+    X[:,1] = Stemp[indStemp] ** 2
+    Y = CFtemp[indStemp]
     
     beta1, beta2, beta0 = np.linalg.lstsq(X,Y)[0]
 
@@ -100,10 +96,10 @@ for i in range(N-1,0,-1):
 Sum = 0.0    
 
 ## the value of option for each simulation is the sum of all PV of continuation value
-for j in range(M):
-    for i in range(2,N+2):
-        CF[j][1] += CF[j][i] * np.exp(-r*h*(i-1))
-    Sum += CF[j][1]
+for i in range(2,N+2):
+    CF[:,1] += CF[:,i] * np.exp(-r*h*(i-1))
+    
+Sum = np.sum(CF[:,1])
 
 ## price is the average of all simulation
 price = Sum/M
