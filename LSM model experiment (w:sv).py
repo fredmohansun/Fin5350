@@ -17,24 +17,36 @@ r = .08
 div = 0
 N = 4
 M = 300000
-sigma = .3
+
+##Stochastic volatility
+alpha = .5
+Vbar = .3
+xi = 0.02
 
 ## Calculating Parameters
 h = T/N
-nuh = (r-div-0.5*sigma*sigma)*h
-sigsh = np.sqrt(h) * sigma
+alphah = alpha * h
+xish = xi * np.sqrt(h)
+
 
 ## X is for log(S)
 X0 = np.log(S0)
 XM = np.zeros((M,N+1))
 XM[:,0] = X0
 
+## V is for Volatility
+V = np.zeros((M,N+1))
+V[:,0] = Vbar
 
 
 ## Calculate X for N steps for M simulation, and get S matrix by exp(X)
 for i in range(1,N+1):
-    eps = np.random.standard_normal(M)
-    XM[:,i] = XM[:,i-1] + nuh + sigsh *eps
+    eps1 = np.random.standard_normal(M)
+    V[:,i] = V[:,i-1] + alphah * (Vbar-V[:,i-1]) + xish * eps1
+    nuh = (r-div-0.5*V[:,i-1]*V[:,i-1])*h
+    sigsh = np.sqrt(h) * V[:,i-1]
+    eps2 = np.random.standard_normal(M)
+    XM[:,i] = XM[:,i-1] + nuh + sigsh *eps2
     
 S = np.exp(XM)
 

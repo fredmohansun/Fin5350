@@ -52,9 +52,9 @@ class option(object):
 
 def main():
     # S0,K,sigma,h=T/N,r,
-    S0 = 100
-    K=100
-    N=2
+    S0 = 41
+    K=40
+    N=1000 
     T=1
     h=T/N
     sigma=.30
